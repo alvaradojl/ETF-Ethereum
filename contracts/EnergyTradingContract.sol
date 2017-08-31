@@ -12,7 +12,7 @@ contract EnergyTradingContract {
 event HasBeenPayed(uint timestamp, address from, uint amount); //event raised contract received money.
 event HasBeenDisabled(uint timestamp); //event raised when contract has been disabled
 event HasBeenClosed(uint timestamp); //event raised when contract has been closed
-
+event BidAccepted(address trader, uint capacity, uint pricePerKwh); //event raised when the trade has completed
 
 //modifier for: account restriction
 modifier onlyBy(address _account){
@@ -120,19 +120,21 @@ function initialize(address _oracle) onlyOwner {
 
 /**@dev Triggers for an action in the marketplace
 */
-function trade() onlyWhenEnabled returns(bool) {
+function trade(uint pricePerKwh) onlyWhenEnabled returns(bool) {
     if (now > nextTradeDate) { //only accept a trade when the "promise to return" window has completed
         lastTrader = msg.sender;  
         lastTradeDate = now;
         lastTradeCapacity = capacity;
         nextTradeDate = lastTradeDate + 15 minutes;
+
+        BidAccepted(lastTrader, lastTradeCapacity, pricePerKwh);
         return true;
     }
     
     return false;
 }
 
-function getCapacityAvailability() returns(uint){
+function getCapacityAvailability() returns(uint) {
     return capacity;
 }
 
