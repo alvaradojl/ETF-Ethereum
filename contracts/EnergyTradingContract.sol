@@ -119,21 +119,24 @@ function initialize(address _oracle) onlyOwner {
 }
 
 /**@dev Triggers for an action in the marketplace
+*@param _pricePerKwh determines the price of the Kwh for the specific trade slot
 */
-function trade(uint pricePerKwh) onlyWhenEnabled returns(bool) {
+function trade(uint _pricePerKwh) onlyWhenEnabled returns(bool) {
     if (now > nextTradeDate) { //only accept a trade when the "promise to return" window has completed
         lastTrader = msg.sender;  
         lastTradeDate = now;
         lastTradeCapacity = capacity;
         nextTradeDate = lastTradeDate + 15 minutes;
 
-        BidAccepted(lastTrader, lastTradeCapacity, pricePerKwh);
+        BidAccepted(lastTrader, lastTradeCapacity, _pricePerKwh);
         return true;
     }
     
     return false;
 }
 
+/**@dev Allows the trader to query to current capacity before an actual trade.
+*/
 function getCapacityAvailability() returns(uint) {
     return capacity;
 }
