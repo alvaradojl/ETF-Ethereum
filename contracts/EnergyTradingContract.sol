@@ -137,7 +137,7 @@ contract EnergyTradingContract {
 
   /**@dev Allows the trader to query to current capacity before an actual trade.
   */
-  function getCapacityAvailability() returns(uint) {
+  function getCapacityAvailability() public returns(uint) {
       return capacity;
   }
 
