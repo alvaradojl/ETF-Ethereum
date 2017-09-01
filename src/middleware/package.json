@@ -11,6 +11,7 @@
   "dependencies": {
     "azure-iot-device": "^1.1.17",
     "azure-iot-device-mqtt": "^1.1.17",
-    "azure-iothub": "^1.1.15"
+    "azure-iothub": "^1.1.15",
+    "iothub-explorer": "^1.1.15"
   }
 }
